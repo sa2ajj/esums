@@ -6,7 +6,7 @@ compile: deps
 	rebar compile
 
 test:
-	rebar eunit ct
+	rebar skip_deps=true eunit ct
 
 deps:
 	rebar get-deps
