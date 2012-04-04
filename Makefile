@@ -2,6 +2,9 @@
 
 all: compile test
 
+erl:
+	erl -pa ebin deps/*/ebin
+
 compile: deps
 	rebar compile
 
