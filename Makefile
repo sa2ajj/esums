@@ -1,4 +1,4 @@
-.PHONY: deps
+.PHONY: deps xref
 
 all: compile test
 
@@ -10,3 +10,6 @@ test:
 
 deps:
 	rebar get-deps
+
+xref:
+	rebar skip_deps=true xref
