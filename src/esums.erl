@@ -55,13 +55,13 @@ format(sha256, Hash) ->
 format(size, Hash) ->
     format_to_bin("~b", [Hash]).
 
-parse(Hash, md5) when is_binary(Hash), byte_size(Hash) == 32 ->
+parse(md5, Hash) when is_binary(Hash), byte_size(Hash) == 32 ->
     {ok, [MD5], []} = io_lib:fread("~16u", binary_to_list(Hash)),
     <<MD5:128/big-unsigned-integer>>;
-parse(Hash, sha1) when is_binary(Hash), byte_size(Hash) == 40 ->
+parse(sha1, Hash) when is_binary(Hash), byte_size(Hash) == 40 ->
     {ok, [SHA1], []} = io_lib:fread("~16u", binary_to_list(Hash)),
     <<SHA1:160/big-unsigned-integer>>;
-parse(Hash, sha256) when is_binary(Hash), byte_size(Hash) == 64 ->
+parse(sha256, Hash) when is_binary(Hash), byte_size(Hash) == 64 ->
     {ok, [SHA256], []} = io_lib:fread("~16u", binary_to_list(Hash)),
     <<SHA256:256/big-unsigned-integer>>.
 
