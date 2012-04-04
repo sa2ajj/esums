@@ -1,5 +1,10 @@
 -module(esums).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-compile([export_all]).
+-endif.
+
 -export([
     new/0,
     update/2,
@@ -69,3 +74,19 @@ parse(sha256, Hash) when is_binary(Hash), byte_size(Hash) == 64 ->
 format_to_bin(Format, Data) ->
     list_to_binary(io_lib:format(Format, Data)).
 % }}}
+
+% {{{ Unit tests
+-ifdef(TEST).
+format_hash_test_() ->
+    MD5 = <<197,109,186,109,175,244,61,2,70,52,250,214,23,72,239,156>>,
+    SHA1 = <<180,33,100,219,103,33,14,21,200,207,152,52,86,32,11,199,32,223,63,120>>,
+    SHA256 = <<16,187,204,5,54,185,28,29,232,181,196,161,34,255,188,225,62,79,84,114,204,41,49,170,47,212,146,244,190,197,171,244>>,
+    {"format_hash simple tests", [
+        ?_assertEqual(MD5, parse(md5, format(md5, MD5))),
+        ?_assertEqual(SHA1, parse(sha1, format(sha1, SHA1))),
+        ?_assertEqual(SHA256, parse(sha256, format(sha256, SHA256)))
+    ]}.
+-endif.
+% }}}
+
+% vim:sw=4:ts=4:et:ai
