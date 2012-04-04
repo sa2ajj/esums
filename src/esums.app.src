@@ -1,6 +1,6 @@
 {application, esums, [
-    {description, ""},
-    {vsn, "1"},
+    {description, "Checksums in Erlang"},
+    {vsn, "1.0"},
     {registered, []},
     {applications, [
         kernel,
