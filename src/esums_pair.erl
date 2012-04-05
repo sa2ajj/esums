@@ -1,6 +1,7 @@
 -module(esums_pair).
 
 -export([
+    open/2,
     open/3,
     write/2,
     complete/2,
@@ -16,6 +17,9 @@
     sums :: 'not_used' | term(),
     gzipped :: term()
 }).
+
+open(Name, Module) ->
+    open(Name, Module, true).
 
 open(Name, Module, Both) when is_binary(Name), is_atom(Module), is_boolean(Both) ->
     ZZ = zlib:open(),
