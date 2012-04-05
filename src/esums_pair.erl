@@ -13,6 +13,7 @@
 -record(esums_pair, {
     zz :: term(),
     module :: atom(),
+    mtime :: integer(),
     plain :: 'not_used' | term(),
     sums :: 'not_used' | term(),
     gzipped :: term()
@@ -33,6 +34,7 @@ open(Name, Module, Both) when is_binary(Name), is_atom(Module), is_boolean(Both)
     end,
     #esums_pair{zz=ZZ,
                 module=Module,
+                mtime=esums_helpers:utc(),
                 plain=Plain,
                 sums=Sums,
                 gzipped=Module:new(<<Name/binary, ".gz">>)}.
@@ -41,6 +43,7 @@ write(#esums_pair{zz=ZZ, module=Module, plain=Plain, sums=Sums, gzipped=GZipped}
     Compressed = iolist_to_binary(zlib:deflate(ZZ, Buffer)),
     {NewPlain, NewSums} = write(Module, Plain, Sums, Buffer),
     State#esums_pair{
+        mtime=esums_helpers:utc(),
         plain=NewPlain,
         sums=NewSums,
         gzipped=Module:write(GZipped, Compressed)
@@ -60,6 +63,7 @@ complete(#esums_pair{zz=ZZ, module=Module, plain=Plain, sums=Sums, gzipped=GZipp
     zlib:close(ZZ),
     {NewPlain, NewSums} = complete(Module, Plain, Sums),
     State#esums_pair{
+        mtime=esums_helpers:utc(),
         plain=NewPlain,
         sums=NewSums,
         gzipped=Module:complete(GZipped, Last)
@@ -73,8 +77,8 @@ complete(Module, Plain, 'not_used') ->
 info(State) ->
     {info(State, plain), info(State, gzipped)}.
 
-info(#esums_pair{plain='not_used', sums=Sums}, plain) ->
-    {no_name, Sums};
+info(#esums_pair{mtime=MTime, plain='not_used', sums=Sums}, plain) ->
+    {no_name, MTime, Sums};
 info(#esums_pair{module=Module, plain=Plain, sums='not_used'}, plain) ->
     Module:info(Plain);
 info(#esums_pair{module=Module, gzipped=GZipped}, gzipped) ->
