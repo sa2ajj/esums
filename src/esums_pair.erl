@@ -78,4 +78,4 @@ info(#esums_pair{plain='not_used', sums=Sums}, plain) ->
 info(#esums_pair{module=Module, plain=Plain, sums='not_used'}, plain) ->
     Module:info(Plain);
 info(#esums_pair{module=Module, gzipped=GZipped}, gzipped) ->
-     Module:info(GZipped).
+    Module:info(GZipped).
