@@ -66,7 +66,8 @@ write(#esums_file{fd=FD, completed=false, sums=Sums}=State, Buffer) when is_bina
 complete(State, Buffer) ->
     complete(write(State, Buffer)).
 
-complete(#esums_file{completed=false, sums=Sums}=State) ->
+complete(#esums_file{fd=FD, completed=false, sums=Sums}=State) ->
+    ok = file:close(FD),
     State#esums_file{mtime = esums_helpers:utc(), completed=true, sums=esums:final(Sums)}.
 
 info(#esums_file{name=Name, mtime=MTime, completed=true, sums=Sums}) ->
