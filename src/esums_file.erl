@@ -56,7 +56,6 @@ write(#esums_file{fd=FD, completed=false, sums=Sums}=State, Buffer) when is_bina
         ok ->
             State#esums_file{
                 mtime = esums_helpers:utc(),
-                fd = FD,
                 sums = esums:update(Sums, Buffer)
             };
 
