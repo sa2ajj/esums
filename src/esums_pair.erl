@@ -37,7 +37,7 @@ open(Name, Module, Both) when is_binary(Name), is_atom(Module), is_boolean(Both)
                 mtime=esums_helpers:utc(),
                 plain=Plain,
                 sums=Sums,
-                gzipped=Module:new(<<Name/binary, ".gz">>)}.
+                gzipped=Module:open(<<Name/binary, ".gz">>)}.
 
 write(#esums_pair{zz=ZZ, module=Module, plain=Plain, sums=Sums, gzipped=GZipped}=State, Buffer) when is_binary(Buffer) ->
     Compressed = iolist_to_binary(zlib:deflate(ZZ, Buffer)),
