@@ -1,4 +1,5 @@
 -module(esums_blob).
+-behaviour(esums_pair).
 
 -export([
     calc/1,

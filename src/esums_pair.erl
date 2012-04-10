@@ -10,6 +10,22 @@
     info/2
 ]).
 
+% {{{ Behaviour definition
+-export([
+    behaviour_info/1
+]).
+
+behaviour_info(callbacks) -> [
+    {open, 1},
+    {write, 2},
+    {complete, 1},
+    {complete, 2},
+    {info, 1}
+];
+behaviour_info(_) ->
+    undefined.
+% }}}
+
 -record(esums_pair, {
     zz :: term(),
     module :: atom(),
