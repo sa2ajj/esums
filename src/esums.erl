@@ -10,6 +10,7 @@
     update/2,
     final/2,
     final/1,
+    simple/2,
     format/1,
     format/2,
     parse/2
@@ -44,6 +45,15 @@ final(#esums{size=Size, md5=MD5, sha1=SHA1, sha256=SHA256}) -> [
     {sha256, erlsha2:sha256_final(SHA256)},
     {size, Size}
 ].
+
+simple(md5, Data) ->
+    crypto:md5_final(crypto:md5_update(crypto:md5_init(), Data));
+simple(sha1, Data) ->
+    crypto:sha_final(crypto:sha_update(crypto:sha_init(), Data));
+simple(sha256, Data) ->
+    erlsha2:sha256_final(erlsha2:sha256_update(erlsha2:sha256_init(), Data));
+simple(size, Data) ->
+    byte_size(Data).
 
 format({Kind, Hash}) ->
     format(Kind, Hash).
